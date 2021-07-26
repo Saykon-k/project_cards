@@ -13,14 +13,19 @@ class ViewController: UIViewController {
 //        super.viewDidLoad()
 //        // Do any additional setup after loading the view.
 //    }
-    var emojicollection = ["🍌","🍉","🍇","🍓","🫐", "🍈","🍒","🥭","🍍","👽","🤬","🌚","♂️"]
+    private var emojicollection = ["🍌","🍉","🍇","🍓","🫐", "🍈","🍒","🥭","🍍","👽","🤬","🌚","♂️"]
     @IBOutlet var buttonCollection: [UIButton]!
     
-    lazy var game = ConcentrationGame(numberofParisofCards: (emojicollection.count+1)/2)
+    private lazy var game = ConcentrationGame(numberofParisofCards: numberofParisofCards)
+    
+    var numberofParisofCards: Int{
+        return(emojicollection.count+1)/2
+    }
+    
 
     @IBOutlet weak var touch: UILabel!
     
-    var emojiDict = [Int:String]()
+    private var emojiDict = [Int:String]()
     
     
     
@@ -35,7 +40,7 @@ class ViewController: UIViewController {
         }
     }
     
-    func emojiIndentifier(for card: Card) -> String{
+    private func emojiIndentifier(for card: Card) -> String{
         if emojiDict[card.identifier] == nil{
             //двойная конвертация ???
             let randomIndex  = Int(arc4random_uniform(UInt32(emojicollection.count)))
@@ -53,7 +58,7 @@ class ViewController: UIViewController {
        
     }
    
-    func  updateViewFromModel(){
+    private func  updateViewFromModel(){
         for index in buttonCollection.indices{
             let button = buttonCollection[index]
             let card = game.cards[index]

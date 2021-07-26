@@ -8,8 +8,29 @@
 import Foundation
 
 class ConcentrationGame{
-    var cards = [Card]()
-    var indexOfOneAndOnlyFaceupCard: Int?
+    private(set) var cards = [Card]()
+    private var indexOfOneAndOnlyFaceupCard: Int?{
+        get{
+            var found_index: Int?
+            
+            for idex in cards.indices{
+                if cards[idex].isFaseUp{
+                    if found_index == nil{
+                        found_index = idex
+                    }
+                    else{
+                        return nil
+                    }
+                }
+            }
+            return found_index
+        }
+        set{
+            for idex in cards.indices{
+                cards[idex].isFaseUp = (idex == newValue)
+        }
+    }
+    }
     
     func chooseCard(at index: Int){
         if !cards[index].isMatched{
@@ -18,16 +39,10 @@ class ConcentrationGame{
                     cards[matchingIndex].isMatched = true
                     cards[index].isMatched = true
                     
-                    
                 }
                 cards[index].isFaseUp = true
-                indexOfOneAndOnlyFaceupCard = nil
                 
             }else{
-                for flipDown in cards.indices{
-                    cards[flipDown].isFaseUp = false
-                }
-                cards[index].isFaseUp = true
                 indexOfOneAndOnlyFaceupCard = index
             }
             
@@ -37,6 +52,7 @@ class ConcentrationGame{
     }
     init(numberofParisofCards: Int){
         for _ in 1...numberofParisofCards{
+            assert(numberofParisofCards>0, "Concentration game must have at least one peir card ")
             let card = Card()
 //            cards.append(card)
 //            cards.append(card)
